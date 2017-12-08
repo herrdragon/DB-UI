@@ -1,0 +1,48 @@
+<div class="content"  ng-controller="searchbookCtrl">
+    <div class="row placeholders">
+        <div class="col-lg-12">
+            <div class="panel panel-primary" >
+                <div class="panel-heading">SEARCH BOOK BY TITLE</div>
+            </div>
+        </div>
+        <form class="form-inline">
+            <div class="form-group row">
+                <label for="booktitle" class="col-sm-1 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" ng-model="booktitle" class="form-control" style="width: 500px" id="booktitle"
+                           placeholder="Enter a complete or partial title non case sensitive">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" ng-click="querytitle(booktitle)" style="margin-left: -15px">Search in Database</button>
+        </form>
+    </div>
+    <h2 class="sub-header">Result</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Book Tile</th>
+                <th>Available</th>
+                <th>Branch Name</th>
+                <th>Branch Location</th>
+                <th>Author Name</th>
+                <th>Author Last Name</th>
+                <th>Published By</th>
+                <th>Publisher Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="res in result">
+                <td>{{res.title}}</td>
+                <td>{{res.OnHand}}</td>
+                <td>{{res.branchName}}</td>
+                <td>{{res.branchLocation}}</td>
+                <td>{{res.authorFirst}}</td>
+                <td>{{res.authorLast}}</td>
+                <td>{{res.publisherName}}</td>
+                <td>{{res.city}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

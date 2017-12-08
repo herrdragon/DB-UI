@@ -1,0 +1,101 @@
+ <div class="content"  ng-controller="calltableCtrl">
+    <div class="row placeholders">
+        <div class="col-lg-12">
+            <div class="panel panel-primary" >
+                <div class="panel-heading">DISPLAY ENTIRE TABLE</div>
+                    <select class="form-control ng-pristine ng-untouched ng-valid" ng-model="selectedTable" ng-change="querytable(selectedTable)" ng-options="selectTable as selectTable.name for selectTable in selectTables">
+                        <option value="">Choose a table to display</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+    <h2 class="sub-header">Table: {{selectedTable.name}}</h2>
+    <div ng-show="selectedTable.name == 'Book'">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>bookCode</th>
+                    <th>title</th>
+                    <th>publisherCode</th>
+                    <th>type</th>
+                    <th>paperback</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="res in result">
+                    <td>{{res.bookCode}}</td>
+                    <td>{{res.title}}</td>
+                    <td>{{res.publisherCode}}</td>
+                    <td>{{res.type}}</td>
+                    <td>{{res.paperback}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-show="selectedTable.name == 'Publisher'">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>publisherCode</th>
+                    <th>publisherName</th>
+                    <th>city</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="res in result">
+                    <td>{{res.publisherCode}}</td>
+                    <td>{{res.publisherName}}</td>
+                    <td>{{res.city}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-show="selectedTable.name == 'Author'">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>authorNum</th>
+                    <th>authorLast</th>
+                    <th>authorFirst</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="res in result">
+                    <td>{{res.authorNum}}</td>
+                    <td>{{res.authorLast}}</td>
+                    <td>{{res.authorFirst}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-show="selectedTable.name == 'Copy'">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>bookCode</th>
+                    <th>branchNum</th>
+                    <th>copyNum</th>
+                    <th>quality</th>
+                    <th>price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="res in result">
+                    <td>{{res.bookCode}}</td>
+                    <td>{{res.branchNum}}</td>
+                    <td>{{res.copyNum}}</td>
+                    <td>{{res.quality}}</td>
+                    <td>{{res.price}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

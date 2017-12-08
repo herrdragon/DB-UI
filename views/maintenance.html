@@ -1,0 +1,257 @@
+<div class="content"  ng-controller="maintenanceCtrl">
+    <div class="row placeholders">
+        <div class="col-lg-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">MAINTENANCE OPERATIONS</div>
+                <p style="margin-top: 10px"><b>All action performed in this page is the Administrator's responsibility</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10">
+        <h2 class="sub-header">Action to Table</h2>
+        <form class="form-group" ng-submit="submitForm(selectTable, selectOp)">
+            <select class="form-control ng-pristine ng-untouched ng-valid" ng-model="selectOp"
+                    ng-change="selectTable='0'; clearColumn()" ng-options="selectOp as selectOp.name for selectOp in selectOps">
+                <option value="">Choose type of operation</option>
+            </select>
+            <br>
+            <select class="form-control ng-pristine ng-untouched ng-valid" ng-model="selectTable" ng-disabled="!selectOp"
+                    ng-change="querycolumn(selectTable, selectOp)" ng-options="selectTable as selectTable.name for selectTable in selectTables">
+                <option value="">Choose a table to work on</option>
+            </select>
+
+            <h2 class="sub-header">Data</h2>
+                <div class="form-group">
+                    <div ng-repeat="column in columns">
+                        <label for={{column.Field}} class="col-sm-2 col-form-label">{{column.Field | uppercase}}</label>
+                        <input type="text" ng-model="column.value" class="form-control" id={{column.Field}}
+                        placeholder="Enter the appropriate data for this field" ng-required="!column.value">
+                   </div>
+                </div>
+            <div ng-show="selectOp.name == 'Insert'">
+                <p>All fields must be fill-in to perform an operation</p>
+                <button type="submit" class="btn btn-danger" ng-disabled="tableForm.$invalid">Perform Insert</button>
+            </div>
+
+            <!--Update table-->
+            <div ng-show="selectTable.name == 'Book' && selectOp.name == 'Update'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>bookCode</th>
+                            <th>title</th>
+                            <th>publisherCode</th>
+                            <th>type</th>
+                            <th>paperback</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td><input type="text" ng-model="res.bookCode" class="form-control" disabled></td>
+                            <td><input type="text" ng-model="res.title" class="form-control" ng-required="!res.title && ng-show"></td>
+                            <td><input type="text" ng-model="res.publisherCode" class="form-control" ng-required="!res.publisherCode && ng-show"></td>
+                            <td><input type="text" ng-model="res.type" class="form-control" ng-required="!res.type && ng-show"></td>
+                            <td><input type="text" ng-model="res.paperback" class="form-control" ng-required="!res.paperback && ng-show"></td>
+                            <td>
+                                <button type="submit" ng-click="toPrep(res)" class="btn btn-primary"  aria-label="Update">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="selectTable.name == 'Publisher' && selectOp.name == 'Update'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>publisherCode</th>
+                            <th>publisherName</th>
+                            <th>city</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td><input type="text" ng-model="res.publisherCode" class="form-control" disabled></td>
+                            <td><input type="text" ng-model="res.publisherName" class="form-control" ng-required="!res.publisherName && ng-show"></td>
+                            <td><input type="text" ng-model="res.city" class="form-control" ng-required="!res.city && ng-show"></td>
+                            <td>
+                                <button type="submit" ng-click="toPrep(res)" class="btn btn-primary" aria-label="Update">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="selectTable.name == 'Author' && selectOp.name == 'Update'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>authorNum</th>
+                            <th>authorLast</th>
+                            <th>authorFirst</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td><input type="text" ng-model="res.authorNum" class="form-control" disabled></td>
+                            <td><input type="text" ng-model="res.authorLast" class="form-control" ng-required="!res.authorLast && ng-show"></td>
+                            <td><input type="text" ng-model="res.authorFirst" class="form-control" ng-required="!res.authorFirst && ng-show"></td>
+                            <td>
+                                <button type="submit" ng-click="toPrep(res)" class="btn btn-primary" aria-label="Update">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="selectTable.name == 'Copy' && selectOp.name == 'Update'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>bookCode</th>
+                            <th>branchNum</th>
+                            <th>copyNum</th>
+                            <th>quality</th>
+                            <th>price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td><input type="text" ng-model="res.bookCode" class="form-control" disabled></td>
+                            <td><input type="text" ng-model="res.branchNum" class="form-control" disabled></td>
+                            <td><input type="text" ng-model="res.copyNum" class="form-control" ng-required="!res.copyNum && ng-show"></td>
+                            <td><input type="text" ng-model="res.quality" class="form-control" ng-required="!res.quality && ng-show"></td>
+                            <td><input type="text" ng-model="res.price" class="form-control" ng-required="!res.price && ng-show"></td>
+                            <td>
+                                <button type="submit" ng-click="toPrep(res)" class="btn btn-primary" aria-label="Update">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--Delete table-->
+            <div ng-show="selectTable.name == 'Book' && selectOp.name == 'Delete'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>bookCode</th>
+                            <th>title</th>
+                            <th>publisherCode</th>
+                            <th>type</th>
+                            <th>paperback</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td>{{res.bookCode}}</td>
+                            <td>{{res.title}}</td>
+                            <td>{{res.publisherCode}}</td>
+                            <td>{{res.type}}</td>
+                            <td>{{res.paperback}}</td>
+                            <td>
+                                <button type="submit" ng-click="toDelete('bookCode', res.bookCode)" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="selectTable.name == 'Publisher' && selectOp.name == 'Delete'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>publisherCode</th>
+                            <th>publisherName</th>
+                            <th>city</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td>{{res.publisherCode}}</td>
+                            <td>{{res.publisherName}}</td>
+                            <td>{{res.city}}</td>
+                            <td>
+                                <button type="submit" ng-click="toDelete('publisherCode', res.publisherCode)" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="selectTable.name == 'Author' && selectOp.name == 'Delete'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>authorNum</th>
+                            <th>authorLast</th>
+                            <th>authorFirst</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td>{{res.authorNum}}</td>
+                            <td>{{res.authorLast}}</td>
+                            <td>{{res.authorFirst}}</td>
+                            <td>
+                                <button type="submit" ng-click="toDelete('authorNum', res.authorNum)" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="selectTable.name == 'Copy' && selectOp.name == 'Delete'">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>bookCode</th>
+                            <th>branchNum</th>
+                            <th>copyNum</th>
+                            <th>quality</th>
+                            <th>price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="res in result">
+                            <td>{{res.bookCode}}</td>
+                            <td>{{res.branchNum}}</td>
+                            <td>{{res.copyNum}}</td>
+                            <td>{{res.quality}}</td>
+                            <td>{{res.price}}</td>
+                            <td>
+                                <button type="submit" ng-click="toDelete('bookCode', res.bookCode)" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
